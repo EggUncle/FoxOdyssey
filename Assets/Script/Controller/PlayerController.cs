@@ -98,8 +98,7 @@ namespace odyssey {
 
         private void jump() {
             rb.velocity = new Vector2(rb.velocity.x, jumpforce);
-            jumpKeyPressed = false;
-            anim.SetBool("jumping", true);
+            jumpKeyPressed = false;      
         }
 
         void SwitchAnim() {
@@ -109,6 +108,10 @@ namespace odyssey {
                 anim.SetBool("jumping", false);
                 anim.SetBool("falling", true);
             }
+            if (rb.velocity.y > jumpforce/2) {
+                anim.SetBool("jumping", true);
+            }
+
             if (bodyColider.IsTouchingLayers(ground)) {
                 anim.SetBool("falling", false);
                 anim.SetBool("idle", true);

@@ -44,7 +44,7 @@ namespace odyssey {
             } else {
                 Debug.Log("headTop is null");
             }
-          
+
             ground = LayerMask.GetMask(OdysseyConstant.layerMaskGround);
             cherryNumText = GameObject.Find("CherryNum").GetComponent<Text>();
         }
@@ -70,12 +70,8 @@ namespace odyssey {
         public override void Move() {
             if (isHurt) {
                 return;
-            } 
-                //anim.SetBool(OdysseyConstant.statsHurt, false);
-                //anim.SetBool(OdysseyConstant.statsIdle, true);
-            
-
-
+            }
+      
             float horizontalMove = Input.GetAxis(OdysseyConstant.inputHorizontal);
             float faceDircetion = horizontalMove;
             rb.velocity = new Vector2(horizontalMove * speed * Time.fixedDeltaTime, rb.velocity.y);
@@ -121,7 +117,7 @@ namespace odyssey {
                 if (!anim.GetBool(OdysseyConstant.statsHurt)) {
                     anim.SetBool(OdysseyConstant.statsHurt, true);
                 }
-                if ( Mathf.Abs(rb.velocity.x) < float.Epsilon) {
+                if (Mathf.Abs(rb.velocity.x) < 0.1f) {
                     anim.SetBool(OdysseyConstant.statsIdle, true);
                     anim.SetBool(OdysseyConstant.statsHurt, false);
                     isHurt = false;
@@ -184,7 +180,8 @@ namespace odyssey {
                     } else {
                         rb.velocity = new Vector2(10, rb.velocity.y);
                     }
-                    anim.SetBool(OdysseyConstant.statsHurt, true);
+                    isHurt = true;
+                    //anim.SetBool(OdysseyConstant.statsHurt, true);
                     //anim.SetBool(OdysseyConstant.statsIdle,false);
 
                 }
@@ -207,3 +204,6 @@ namespace odyssey {
 
     }
 }
+
+
+

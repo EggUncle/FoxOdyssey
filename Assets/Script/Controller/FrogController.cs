@@ -45,7 +45,7 @@ namespace odyssey {
             base.FixedUpdate();
             animControl();
         }
-        int i = 0;
+        
         private void moveWithJump() {
             if (circleCollider.IsTouchingLayers(groundLayer)) {
                 if (transform.position.x < leftX) {

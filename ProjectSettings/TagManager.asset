@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Collection
   - Enemy
+  - MovableGround
+  - FallingPlatform
+  - StaticGround
   layers:
   - Default
   - TransparentFX

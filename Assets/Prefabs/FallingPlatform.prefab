@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2791090278614040511}
   - component: {fileID: 2791090278614040449}
   - component: {fileID: 2791090278614040448}
-  - component: {fileID: 2791090278614040450}
   - component: {fileID: 2791090278614040451}
+  - component: {fileID: 863810747}
   m_Layer: 11
   m_Name: FallingPlatform
   m_TagString: FallingPlatform
@@ -121,37 +121,11 @@ TargetJoint2D:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_Anchor: {x: 0, y: 0}
-  m_Target: {x: 50, y: 2.5}
+  m_Target: {x: 78.5, y: 4.5}
   m_AutoConfigureTarget: 1
   m_MaxForce: 1000
   m_DampingRatio: 1
   m_Frequency: 4
---- !u!61 &2791090278614040450
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2791090278614040509}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &2791090278614040451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,3 +139,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fallingTime: 2
+--- !u!58 &863810747
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2791090278614040509}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.49

@@ -55,9 +55,6 @@ TagManager:
   - name: Environment
     uniqueID: 1595213349
     locked: 0
-  - name: FrontGround
-    uniqueID: 3545084273
-    locked: 0
   - name: Collection
     uniqueID: 3973915465
     locked: 0
@@ -66,4 +63,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 549003853
+    locked: 0
+  - name: FrontGround
+    uniqueID: 3545084273
     locked: 0

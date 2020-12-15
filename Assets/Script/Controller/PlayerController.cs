@@ -25,8 +25,7 @@ namespace odyssey {
         private bool crouch;
         private bool isCrouch;
         private bool isHurt;
-
-        private long debugNum = 0;
+        private bool gameFailed;
 
         public int cherry = 0;
 
@@ -77,7 +76,7 @@ namespace odyssey {
         }
 
         public override void Move() {
-            if (isHurt) {
+            if (isHurt || gameFailed) {
                 return;
             }
 
@@ -210,8 +209,12 @@ namespace odyssey {
             }
         }
 
-        private void Restart() {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        public void GameFailed() {
+            anim.SetBool(OdysseyConstant.statsHurt, true);
+            rb.velocity = new Vector2(0, 20);
+            headColider.isTrigger = true;
+            bodyColider.isTrigger = true;
+            gameFailed = true;
         }
 
     }

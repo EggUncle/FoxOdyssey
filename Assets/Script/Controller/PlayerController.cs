@@ -12,7 +12,8 @@ namespace odyssey {
         private LayerMask ground;
         private BoxCollider2D headColider;
         private CircleCollider2D bodyColider;
-        private GameObject headTop;
+        private BoxCollider2D bottomCollider2D;
+        private GameObject bottom;
 
 
         public float speed;
@@ -21,9 +22,6 @@ namespace odyssey {
         public GameObject dialogPanel;
 
         private Text cherryNumText;
-
-        private bool crouch;
-        private bool isCrouch;
         private bool isHurt;
         private bool gameFailed;
 
@@ -46,12 +44,8 @@ namespace odyssey {
             anim = GetComponent<Animator>();
             headColider = GetComponent<BoxCollider2D>();
             bodyColider = GetComponent<CircleCollider2D>();
-            headTop = GameObject.Find("headTop");
-            if (headTop != null) {
-                Debug.Log("headTop");
-            } else {
-                Debug.Log("headTop is null");
-            }
+            bottom = GameObject.Find("Bottom");
+            bottomCollider2D = bottom.gameObject.GetComponent<BoxCollider2D>();
 
             ground = LayerMask.GetMask(OdysseyConstant.layerMaskGround);
             cherryNumText = GameObject.Find("CherryNum").GetComponent<Text>();
@@ -65,14 +59,9 @@ namespace odyssey {
 
 
         private void Update() {
-            if (Input.GetButtonDown(OdysseyConstant.buttonJump) && bodyColider.IsTouchingLayers(ground)) {
+            if (Input.GetButtonDown(OdysseyConstant.buttonJump) && bottomCollider2D.IsTouchingLayers(ground)) {
                 jumpKeyPressed = true;
             }
-            //if (Input.GetButtonDown("Crouch")) {
-            //    crouch = true;
-            //} else if (Input.GetButtonUp("Crouch")) {
-            //    crouch = false;
-            //}
         }
 
         public override void Move() {
@@ -95,8 +84,7 @@ namespace odyssey {
 
             anim.SetFloat("running", Mathf.Abs(faceDircetion));
             //Debug.Log(Mathf.Abs(faceDircetion));
-
-            if (jumpKeyPressed && bodyColider.IsTouchingLayers(ground)) {
+            if (jumpKeyPressed && bottomCollider2D.IsTouchingLayers(ground)) {
                 jump();
             }
 
@@ -112,7 +100,19 @@ namespace odyssey {
         void SwitchAnim() {
             //Debug.Log(debugNum++ + "SwitchAnim");
             anim.SetBool("idle", false);
-            if (rb.velocity.y < float.Epsilon) {
+            if (isHurt) {
+                if (!anim.GetBool(OdysseyConstant.statsHurt)) {
+                    anim.SetBool(OdysseyConstant.statsHurt, true);
+                }
+                if (Mathf.Abs(rb.velocity.x) < 0.1f && !gameFailed) {
+                    anim.SetBool(OdysseyConstant.statsIdle, true);
+                    anim.SetBool(OdysseyConstant.statsHurt, false);
+                    isHurt = false;
+                }
+                return;
+            }
+
+            if (rb.velocity.y < 0) {
                 anim.SetBool("jumping", false);
                 anim.SetBool("falling", true);
             }
@@ -120,39 +120,10 @@ namespace odyssey {
                 anim.SetBool("jumping", true);
             }
 
-            if (bodyColider.IsTouchingLayers(ground)) {
+            if (bottomCollider2D.IsTouchingLayers(ground)) {
                 anim.SetBool("falling", false);
                 anim.SetBool("idle", true);
             }
-            if (isHurt) {
-                if (!anim.GetBool(OdysseyConstant.statsHurt)) {
-                    anim.SetBool(OdysseyConstant.statsHurt, true);
-                }
-                if (Mathf.Abs(rb.velocity.x) < 0.1f) {
-                    anim.SetBool(OdysseyConstant.statsIdle, true);
-                    anim.SetBool(OdysseyConstant.statsHurt, false);
-                    isHurt = false;
-                }
-            }
-
-            if (crouch && !isCrouch) {
-                anim.SetBool("idle", false);
-                anim.SetBool("crouch", true);
-                isCrouch = true;
-                headColider.enabled = false;
-            } else if (!crouch && Physics2D.OverlapCircle(headTop.transform.position, 0.1f, ground)) {
-                anim.SetBool("crouch", false);
-                if (anim.GetFloat("running") < 0.1) {
-                    anim.SetBool("idle", true);
-                }
-                isCrouch = false;
-                headColider.enabled = true;
-            }
-            //else if (rb.velocity.y == 0) {
-            //    anim.SetBool("falling", false);
-            //    anim.SetBool("idle", true);
-            //}
-
         }
 
         private void OnTriggerEnter2D(Collider2D collision) {
@@ -167,7 +138,7 @@ namespace odyssey {
                 dialogPanel.SetActive(true);
             }
             if (collision.name.Equals("DeadLine")) {
-                Invoke("Restart", 1);
+                // Invoke("Restart", 1);
             }
         }
 
@@ -191,7 +162,6 @@ namespace odyssey {
                     } else {
                         rb.velocity = new Vector2(10, rb.velocity.y);
                     }
-                    isHurt = true;
                     //anim.SetBool(OdysseyConstant.statsHurt, true);
                     //anim.SetBool(OdysseyConstant.statsIdle,false);
 
@@ -210,11 +180,14 @@ namespace odyssey {
         }
 
         public void GameFailed() {
-            anim.SetBool(OdysseyConstant.statsHurt, true);
+            isHurt = true;
+            gameFailed = true;
+            //anim.SetBool(OdysseyConstant.statsHurt, true);
             rb.velocity = new Vector2(0, 20);
             headColider.isTrigger = true;
             bodyColider.isTrigger = true;
-            gameFailed = true;
+
+
         }
 
     }

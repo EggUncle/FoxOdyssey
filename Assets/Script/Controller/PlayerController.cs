@@ -32,6 +32,15 @@ namespace odyssey {
 
         private bool jumpKeyPressed;
 
+
+        private void OnLevelWasLoaded(int level) {
+            Vector3 checkPoint = CheckPointController.getCurrentCheckPointPosition();
+            if (checkPoint != null) {
+                transform.position = checkPoint;
+            }
+
+        }
+
         // Start is called before the first frame update
         void Start() {
             rb = GetComponent<Rigidbody2D>();
@@ -71,7 +80,7 @@ namespace odyssey {
             if (isHurt) {
                 return;
             }
-      
+
             float horizontalMove = Input.GetAxis(OdysseyConstant.inputHorizontal);
             float faceDircetion = horizontalMove;
             rb.velocity = new Vector2(horizontalMove * speed * Time.fixedDeltaTime, rb.velocity.y);
@@ -98,7 +107,7 @@ namespace odyssey {
 
         private void jump() {
             rb.velocity = new Vector2(rb.velocity.x, jumpforce);
-            jumpKeyPressed = false;      
+            jumpKeyPressed = false;
         }
 
         void SwitchAnim() {
@@ -108,7 +117,7 @@ namespace odyssey {
                 anim.SetBool("jumping", false);
                 anim.SetBool("falling", true);
             }
-            if (rb.velocity.y > jumpforce/2) {
+            if (rb.velocity.y > jumpforce / 2) {
                 anim.SetBool("jumping", true);
             }
 

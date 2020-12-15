@@ -5,6 +5,8 @@ using UnityEngine;
 namespace odyssey {
 
     public class OdysseyConstant : MonoBehaviour {
+        public static string player = "Player";
+
         public static string layerMaskGround = "Ground";
 
         public static string buttonJump = "Jump";

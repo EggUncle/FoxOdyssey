@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace odyssey {
-    public class GameManager : MonoBehaviour {
+
+    public class DeadLine : MonoBehaviour {
         // Start is called before the first frame update
         void Start() {
 
@@ -15,8 +15,11 @@ namespace odyssey {
 
         }
 
-        public static void resetGameWithCheckPoint() {
-            SceneManager.LoadScene(SceneManager.GetSceneByBuildIndex(0).name);
+        private void OnTriggerEnter2D(Collider2D collision) {
+            if (collision.gameObject.tag.Equals(OdysseyConstant.player)) {
+                GameManager.resetGameWithCheckPoint();
+            }
         }
+
     }
 }
